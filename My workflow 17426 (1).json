@@ -1,0 +1,205 @@
+{
+  "name": "My workflow 17426",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1QGUbvMKcg_gcxopjkz0mdnCX8UI_uBlj9X5hC0nEpDU",
+          "mode": "list",
+          "cachedResultName": "Social Media Workflow",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QGUbvMKcg_gcxopjkz0mdnCX8UI_uBlj9X5hC0nEpDU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QGUbvMKcg_gcxopjkz0mdnCX8UI_uBlj9X5hC0nEpDU/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        -64
+      ],
+      "id": "e69f7459-9684-476f-b8a0-5e7cb3c38c51",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "KviNlGfKHWtBTsSy",
+          "name": "Google Sheets Trigger account 4151"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Summarize this article {{ $json.newslinks }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -512,
+        -64
+      ],
+      "id": "763ee877-b186-4043-9deb-5d28edec2c38",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -512,
+        176
+      ],
+      "id": "b2d5025c-117a-439b-8ff9-558915d6912e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "4x4TKNC9AVUjB1ym",
+          "name": "Google Gemini(PaLM) Api account 10428"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Assume the role of an industry expert and draft a LinkedIn post discussing key points from a news article relevant to artificial intelligence. The post should provide insightful analysis, connect with current industry trends, and encourage professional engagement or discussion. Highlight any notable implications for the industry. Since LinkedIn supports detailed posts, ensure it is informative and structured. Include a professional call to action. Here's a summary of the article:\n",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -144,
+        -64
+      ],
+      "id": "71a7328e-cba1-4bb8-acf8-00775f58bc69",
+      "name": "Basic LLM Chain1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -144,
+        192
+      ],
+      "id": "fa3b5355-decc-40fa-8f34-e4d3470c8564",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "4x4TKNC9AVUjB1ym",
+          "name": "Google Gemini(PaLM) Api account 10428"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "person": "PAIvcdTUMa",
+        "text": "This article from IBM provides a comprehensive overview of **Generative AI**, explaining its underlying technology, business applications, and the challenges organizations face when implementing it.\\n\\nHere is a summary of the key points:\\n\\n### 1. What is Generative AI?\\nGenerative AI is a subset of deep learning that uses artificial intelligence to create new, original content—such as text, images, audio, and code—based on the patterns it learned from massive datasets. Unlike traditional AI, which focuses on classifying or identifying existing data, generative AI \"generates\" something new.\\n\\n### 2...",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -64
+      ],
+      "id": "ea457ddc-8732-435c-8168-4796747eae77",
+      "name": "Create a post",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "vEzQLNTh4yHOeDhQ",
+          "name": "LinkedIn account 3044"
+        }
+      },
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "8b3eaf53-35ab-4183-ad22-6d7dbe023edd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "969257b09ad2942bbaff2e2288304f4969030574d109cdeca05bf11f630884df"
+  },
+  "id": "tTyZFAHglb1gfuSP",
+  "tags": []
+}
